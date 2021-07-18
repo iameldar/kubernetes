@@ -1,0 +1,21 @@
+Get the JWT_TOKEN value 
+============================
+
+SA_JWT_TOKEN=$(kubectl get secret <sa-token-name> -o jsonpath="{.data.token}" | base64 --decode; echo)
+
+
+Get Kubernetes Certifcate Value
+===============================
+
+CA_CRT=$(kubectl get secret <sa-token-name> -o jsonpath="{.data.['ca\.crt']}" | base64 --decode; echo)
+
+
+Configure Vault Auth on /config endpoint
+========================================
+
+$ vault write auth/<access_name>/config \
+	token_reviewer_jwt=$SA_JWT_TOKEN \
+	kubernetes_host="https://$KUBERNETES_PORT_443_TCP_ADDR:443" \
+	kubernetes_ca_cert=$CA_CRT
+
+
