@@ -1,3 +1,11 @@
+sa-token-name: find the SA that has ClusterRole/system:auth-delegator
+=========================================
+kubectl get clusterrolebinding | grep -i vault
+kubectl get clusterrolebinding vault-server-binding -o yaml
+
+kubectl get sa vault -n vault -o yaml
+
+
 Get the JWT_TOKEN value 
 ============================
 
